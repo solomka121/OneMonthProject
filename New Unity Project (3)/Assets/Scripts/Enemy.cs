@@ -14,6 +14,11 @@ public class Enemy : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0) Death();
+    }
+    private void Death()
+    {
+        Destroy(gameObject);
     }
 }
