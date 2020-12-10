@@ -38,13 +38,13 @@ public class PlayerMovement : MonoBehaviour
         RB.velocity = movementVec * speed;
         //RB.AddForce(movementVec * speed * 100);
 
-        if (_timeToShoot <= 0)
+        if (Input.GetButton("Fire1"))
         {
-
-        }
-        else
-        {
-            _timeToShoot -= Time.deltaTime;
+            if (Time.time >= _timeToShoot)
+            {
+                Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
+                _timeToShoot = Time.time + _fireSpeed;
+            }
         }
 
         CursorCheck();
@@ -52,12 +52,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetButton("Fire1") && _timeToShoot <= 0)
-        {
-            print("shoot");
-            Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
-            _timeToShoot = _fireSpeed;
-        }
+
     }
     private void CursorCheck()
     {
