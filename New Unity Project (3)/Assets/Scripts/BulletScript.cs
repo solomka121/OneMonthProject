@@ -10,7 +10,7 @@ public class BulletScript : MonoBehaviour
     void Start()
     {
         _RB = GetComponent<Rigidbody>();
-        _RB.velocity = transform.forward * 100 * _speed * Time.deltaTime;
+        _RB.velocity = transform.forward * _speed;
     }
     void FixedUpdate()
     {

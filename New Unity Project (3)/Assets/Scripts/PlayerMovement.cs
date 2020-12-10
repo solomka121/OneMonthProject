@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform rightHand;
     [SerializeField] private Transform GunBarrel;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private float _fireSpeed = 0.4f;
+    private float _timeToShoot;
 
     public Camera mainCamera;
     private Vector3 cursorPoint = new Vector3(0 , 0 , 0);
@@ -36,14 +38,25 @@ public class PlayerMovement : MonoBehaviour
         RB.velocity = movementVec * speed;
         //RB.AddForce(movementVec * speed * 100);
 
+        if (_timeToShoot <= 0)
+        {
+
+        }
+        else
+        {
+            _timeToShoot -= Time.deltaTime;
+        }
+
         CursorCheck();
         Aim();
     }
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1") && _timeToShoot <= 0)
         {
+            print("shoot");
             Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
+            _timeToShoot = _fireSpeed;
         }
     }
     private void CursorCheck()
