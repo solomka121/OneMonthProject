@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform cursorOverObject;
 
     [SerializeField] private float speed;
+
     
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            if (Time.time >= _timeToShoot)
+            if (_timeToShoot <= Time.time)
             {
                 Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
                 _timeToShoot = Time.time + _fireSpeed;
@@ -90,5 +91,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = new Color(1, 0, 0);
         Gizmos.DrawWireSphere(cursorPoint , 0.3f);
+    }
+    public Vector3 GetCursorPoint()
+    {
+        return cursorPoint;
     }
 }
