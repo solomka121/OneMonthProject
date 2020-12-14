@@ -23,6 +23,19 @@ public class PlayerHealth : MonoBehaviour
             Death();
         }
     }
+
+    public void GetHeal(int heal)
+    {
+        if (_currentHealth + heal > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+        else
+        {
+            _currentHealth += heal;
+        }
+    }
+
     private void Death()
     {
         Destroy(this.gameObject);

@@ -10,6 +10,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform GunBarrel;
     [SerializeField] private GameObject bullet;
 
+    [SerializeField] private int _bulletDamage;
+    [SerializeField] private int _bulletSpeed;
+
     [SerializeField] private float _fireSpeed = 0.4f;
     private float _timeToShoot;
 
@@ -96,7 +99,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void Shoot()
     {
-        Instantiate(bullet, GunBarrel.position, GunBarrel.rotation);
+        BulletScript bull = Instantiate(bullet, GunBarrel.position, GunBarrel.rotation).GetComponent<BulletScript>();
+        bull.Init(_bulletDamage , _bulletSpeed);
         _bulletsLeftInMag--;
 
          _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();

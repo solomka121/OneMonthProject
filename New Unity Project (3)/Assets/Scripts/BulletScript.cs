@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    private Rigidbody _RB;
-    [SerializeField] private float _speed;
     [SerializeField] private int _damage;
+    [SerializeField] private float _speed;
+    [SerializeField] private bool _takeDefaultVars = false;
+    
+    private Rigidbody _RB;
+
     void Start()
     {
-        _RB = GetComponent<Rigidbody>();
-        _RB.velocity = transform.forward * _speed;
+        if (!_takeDefaultVars)
+        {
+            _RB = GetComponent<Rigidbody>();
+            _RB.velocity = transform.forward * _speed;
+        }
+        else
+        {
+
+        }
+    }
+
+    public void Init(int damage, float speed)
+    {
+        _damage = damage;
+        _speed = speed;
     }
     void FixedUpdate()
     {
