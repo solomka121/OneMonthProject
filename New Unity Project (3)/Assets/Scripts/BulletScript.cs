@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    private Rigidbody _RB;
-    [SerializeField] private float _speed;
     [SerializeField] private int _damage;
+    [SerializeField] private float _speed;
+    [SerializeField] private bool _takeDefaultVars = false;
+    
+    private Rigidbody _RB;
+
     void Start()
     {
-        _RB = GetComponent<Rigidbody>();
-        _RB.velocity = transform.forward * _speed;
+        if (!_takeDefaultVars)
+        {
+            _RB = GetComponent<Rigidbody>();
+            _RB.velocity = transform.forward * _speed;
+        }
+        else
+        {
+
+        }
+    }
+
+    public void Init(int damage, float speed)
+    {
+        _damage = damage;
+        _speed = speed;
     }
     void FixedUpdate()
     {
@@ -18,15 +34,11 @@ public class BulletScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Enemy en;
-        if (en = other.gameObject.GetComponent<Enemy>())
+        EnemyHealth enemyScipt;
+        if (enemyScipt = other.gameObject.GetComponent<EnemyHealth>())
         {
-            en.GetDamage(_damage);
+            enemyScipt.GetDamage(_damage);
             Destroy(gameObject);
-        }
-        else if (other.gameObject.tag == "Player" || other.gameObject.tag == "Gun")
-        {
-
         }
         else
         {
