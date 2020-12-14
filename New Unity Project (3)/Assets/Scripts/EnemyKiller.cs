@@ -6,8 +6,8 @@ public class EnemyKiller : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Enemy en;
-        if (en = other.GetComponent<Enemy>())
+        EnemyHealth en;
+        if (en = other.GetComponent<EnemyHealth>())
         {
             if (en != null)
             {

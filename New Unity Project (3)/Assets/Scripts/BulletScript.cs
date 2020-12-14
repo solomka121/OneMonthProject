@@ -18,15 +18,11 @@ public class BulletScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Enemy en;
-        if (en = other.gameObject.GetComponent<Enemy>())
+        EnemyHealth enemyScipt;
+        if (enemyScipt = other.gameObject.GetComponent<EnemyHealth>())
         {
-            en.GetDamage(_damage);
+            enemyScipt.GetDamage(_damage);
             Destroy(gameObject);
-        }
-        else if (other.gameObject.tag == "Player" || other.gameObject.tag == "Gun")
-        {
-
         }
         else
         {
