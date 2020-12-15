@@ -24,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movementVec = new Vector3(horizontal , 0 , vertical);
 
-        //gameObject.transform.Translate(movementVec * speed * Time.deltaTime);
-        RB.velocity = movementVec * speed;
-        //RB.AddForce(movementVec * speed * 100);
+        
+
+        RB.velocity = movementVec.normalized * speed;
     }
     private void Update()
     {

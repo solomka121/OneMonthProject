@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Gun
   - Pickable
+  - HiddenWall
+  - Bullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
