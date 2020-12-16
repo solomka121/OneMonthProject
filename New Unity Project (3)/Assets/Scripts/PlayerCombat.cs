@@ -17,9 +17,9 @@ public class PlayerCombat : MonoBehaviour
     private float _timeToShoot;
 
     [SerializeField] private float _reloadTime;
-    private float _timeToReload;
+    public float _timeToReload;
     private float _imageFill;
-    private bool _isReloading;
+    public bool _isReloading;
 
 
     [SerializeField] private int _Mags;
@@ -133,6 +133,8 @@ public class PlayerCombat : MonoBehaviour
     {
         _bulletsLeftInMag = _maxBulletsInMag;
         _Mags--;
+
+        _timeToReload = 0;
 
         _isReloading = false;
 
