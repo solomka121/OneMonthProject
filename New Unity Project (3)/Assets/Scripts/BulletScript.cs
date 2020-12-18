@@ -40,6 +40,10 @@ public class BulletScript : MonoBehaviour
             enemyScipt.GetDamage(_damage);
             Destroy(gameObject);
         }
+        else if (other.gameObject.tag == "RoomZone")
+        {
+            //nothing
+        }
         else
         {
             Destroy(gameObject);

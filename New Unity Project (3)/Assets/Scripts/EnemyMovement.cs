@@ -29,4 +29,9 @@ public class EnemyMovement : MonoBehaviour
         _Target = target;
         _NM.SetDestination(_Target);
     }
+
+    public void StopMoving()
+    {
+        _NM.isStopped = true;
+    }
 }

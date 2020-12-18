@@ -41,6 +41,10 @@ public class EnemyBullet : MonoBehaviour
             PH.GetDamage(_damage);
             Destroy(gameObject);
         }
+        else if (other.gameObject.tag == "RoomZone")
+        {
+            //nothing
+        }
         else
         {
             Destroy(gameObject);

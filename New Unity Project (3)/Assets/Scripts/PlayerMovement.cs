@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position , movementVec.normalized * 2 , Color.blue);*/
 
         RB.velocity = movementVec.normalized * (speed / facing );
+        //RB.MovePosition(RB.position + movementVec.normalized * (speed / facing) * Time.deltaTime);
     }
     private void Update()
     {

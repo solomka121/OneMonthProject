@@ -9,6 +9,8 @@ TagManager:
   - HiddenWall
   - Bullet
   - EnemyBullet
+  - RoomZone
+  - Enemy
   layers:
   - Default
   - TransparentFX
