@@ -15,9 +15,16 @@ public class TurretCombat : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private float _agrRadius;
     public LayerMask isTargets;
+    [SerializeField] private LayerMask _eyesFilter;
     void Start()
     {
         _timeToShoot = _attackSpeed;
+    }
+
+    public void PauseCombatAI(float time)
+    {
+        this.enabled = false;
+        StartCoroutine(StartAiDelay(time));
     }
 
     // Update is called once per frame
@@ -34,8 +41,7 @@ public class TurretCombat : MonoBehaviour
             checkTargets();
             if (_timeToShoot <= 0 )
             {
-                var bull = Instantiate(_bullet , _barrelPoint.position , _barrelPoint.rotation);
-                bull.GetComponent<EnemyBullet>().Init(_damage , _bulletSpeed);
+                Shoot();
                 _timeToShoot = _attackSpeed;
             }
             else
@@ -51,7 +57,19 @@ public class TurretCombat : MonoBehaviour
         Collider[] targets = Physics.OverlapSphere(transform.position, _agrRadius, isTargets);
         foreach (Collider target in targets)
         {
-            _target = target.transform;
+            if (target.tag == "Player")
+            {
+                RaycastHit rayHit;
+                Vector3 dirToTarget = target.transform.position - transform.position;
+                Physics.Raycast(_barrelPoint.position, dirToTarget.normalized, out rayHit, Mathf.Infinity , _eyesFilter);
+                Debug.DrawRay(_barrelPoint.position, dirToTarget.normalized * rayHit.distance);
+                Debug.DrawLine(Vector3.zero , rayHit.point);
+                if (rayHit.collider.gameObject.tag == target.gameObject.tag)
+                {
+                    _target = target.transform;
+                }
+
+            }
         }
         if (targets.Length == 0)
         {
@@ -61,7 +79,14 @@ public class TurretCombat : MonoBehaviour
     
     private void Shoot()
     {
+        var bull = Instantiate(_bullet, _barrelPoint.position, _barrelPoint.rotation);
+        bull.GetComponent<EnemyBullet>().Init(_damage, _bulletSpeed);
+    }
 
+    private IEnumerator StartAiDelay(float delay)
+    {
+            yield return new WaitForSeconds(delay);
+            this.enabled = true;
     }
 
     private void OnDrawGizmos()

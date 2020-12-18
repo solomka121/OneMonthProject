@@ -24,7 +24,9 @@ public class CameraScript : MonoBehaviour
     {
         CursorCheck();
 
-        _dir = Vector3.ClampMagnitude((_cursorPoint - _objectToFollow.position).normalized * _cursorPoint.magnitude, 28);
+        _cursorPoint.y = _objectToFollow.position.y; // lock position on y (player.y)
+
+        _dir = Vector3.ClampMagnitude((_cursorPoint - _objectToFollow.position).normalized * (_cursorPoint - _objectToFollow.position).magnitude , 28);
         _smoothedDir = Vector3.Lerp(Vector3.zero, _dir, 0.1f);
 
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, _objectToFollow.position + _followOffSet + _smoothedDir, 0.1f);
