@@ -7,6 +7,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _currentHealth;
 
+    [SerializeField] private GameObject _damageEffect;
+    [SerializeField] private Color _damageColor;
+
     void Start()
     {
         _currentHealth = _maxHealth;
@@ -15,9 +18,14 @@ public class PlayerHealth : MonoBehaviour
     {
         
     }
-    public void GetDamage(int damage)
+    public void GetDamage(int damage , Vector3 hitPoint)
     {
         _currentHealth -= damage;
+
+        Vector3 directionToDamage = hitPoint - transform.position;
+        Quaternion damageRotation = Quaternion.FromToRotation(transform.forward, directionToDamage);
+        Instantiate(_damageEffect, transform.position, damageRotation);
+
         if (_currentHealth <= 0)
         {
             Death();

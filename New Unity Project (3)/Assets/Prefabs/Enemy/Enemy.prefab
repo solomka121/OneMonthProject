@@ -134,6 +134,7 @@ MonoBehaviour:
   _maxHealth: 100
   _currentHealth: 0
   _damageEffect: {fileID: 3538931276695363196, guid: b3cab6a2555b229448a3fe1f798e64cf, type: 3}
+  _damageColor: {r: 0.5188679, g: 0.18845673, b: 0.19311035, a: 0}
 --- !u!114 &662215515974801759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +189,7 @@ NavMeshAgent:
   m_Acceleration: 12
   avoidancePriority: 50
   m_AngularSpeed: 160
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 0.4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

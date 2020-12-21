@@ -77,7 +77,8 @@ public class EnemyCombat : MonoBehaviour
             PlayerHealth PH;
             if (PH = hit.GetComponent<PlayerHealth>())
             {
-                PH.GetDamage(_meleeDamage);
+                //Vector3 hitPoint = hit.ClosestPoint(transform.position);
+                PH.GetDamage(_meleeDamage , transform.position);
             }
         }
     }
