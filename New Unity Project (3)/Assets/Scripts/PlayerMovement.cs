@@ -25,7 +25,9 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
-        movementVec = new Vector3(horizontal , 0 , vertical);
+
+
+        movementVec = new Vector3(horizontal, 0 , vertical);
 
         //facing = Vector3.Dot(movementVec , transform.forward);
 

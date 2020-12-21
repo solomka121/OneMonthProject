@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
+    [SerializeField] private GameObject SpawnEffect;
+
     [SerializeField] private DoorSetActive[] _doors;
 
     [SerializeField] private GameObject _enemies;
@@ -19,6 +21,8 @@ public class RoomScript : MonoBehaviour
     private int _enemiesCount;
 
     private bool IsClear;
+
+    private float speed;
     //private bool IsPlayerInside;
 
     [SerializeField] private float _aiEnableDelay;
@@ -71,6 +75,7 @@ public class RoomScript : MonoBehaviour
 
         Vector3 randomPosition = new Vector3(Random.Range(-_xSpawnRange , _xSpawnRange) , _ySpawn , Random.Range(-_zSpawnRange , _zSpawnRange));
         GameObject Enemy = Instantiate(_objToSpawn[RandomPrefab], _enemies.transform.position + randomPosition , Quaternion.identity, _enemies.transform);
+        Instantiate(SpawnEffect, Enemy.transform.position, SpawnEffect.transform.rotation);
 
         Vector3 startScale = gameObject.transform.localScale;
         Enemy.transform.localScale = Vector3.zero;
@@ -122,5 +127,9 @@ public class RoomScript : MonoBehaviour
 
             StartCoroutine(CheckRoom());
         }
+    }
+    private void TurretShoot()
+    {
+      
     }
 }

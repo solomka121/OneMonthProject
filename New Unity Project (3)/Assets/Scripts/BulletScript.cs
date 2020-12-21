@@ -32,7 +32,7 @@ public class BulletScript : MonoBehaviour
     {
         //transform.Translate(transform.forward * 10 * Time.deltaTime);
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         EnemyHealth enemyScipt;
         if (enemyScipt = other.gameObject.GetComponent<EnemyHealth>())
