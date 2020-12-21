@@ -38,7 +38,7 @@ public class EnemyBullet : MonoBehaviour
         PlayerHealth PH;
         if (PH = other.GetComponent<PlayerHealth>())
         {
-            PH.GetDamage(_damage);
+            PH.GetDamage(_damage , transform.position);
             Destroy(gameObject);
         }
         else if (other.gameObject.tag == "RoomZone")
