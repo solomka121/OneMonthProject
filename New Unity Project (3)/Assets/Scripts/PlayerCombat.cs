@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private Transform rightHand;
+
+    [Header("Gun Stats")]
+
     [SerializeField] private Transform GunBarrel;
     [SerializeField] private GameObject bullet;
 
@@ -25,13 +28,21 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private int _maxBulletsInMag;
     private int _bulletsLeftInMag;
 
+    [Header("Gun UI")]
     [SerializeField] private Image _reloadImgUI;
     [SerializeField] private TextMeshProUGUI _MagsUI;
     [SerializeField] private TextMeshProUGUI _maxBulletsInMagUI;
     [SerializeField] private TextMeshProUGUI _bulletsLeftInMagUI;
 
+    private Rigidbody _RB;
     private CameraScript _camData;
     private Vector3 cursorPoint;
+    private Vector3 smoothedLookAt;
+
+    void Awake()
+    {
+        smoothedLookAt = transform.position;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +50,7 @@ public class PlayerCombat : MonoBehaviour
 
         // any other way except public GameObj camera ?
         _camData = GameObject.Find("MainCamera").GetComponent<CameraScript>();
+        _RB = GetComponent<Rigidbody>();
 
         _bulletsLeftInMag = _maxBulletsInMag;
 
@@ -111,11 +123,12 @@ public class PlayerCombat : MonoBehaviour
         lookAt.y = transform.position.y;
 
         //lookAt.Normalize();
+        //print(Vector3.Angle(lookAt, smoothedLookAt));
+
+        //smoothedLookAt = Vector3.Lerp(smoothedLookAt, lookAt , 0.01f * (Vector3.Angle(lookAt, smoothedLookAt) / 3));
 
         rightHand.LookAt(lookAt);
         transform.LookAt(lookAt);
-
-        print(cursorPoint);
 
         Debug.DrawRay(GunBarrel.position, GunBarrel.forward * 5);
 

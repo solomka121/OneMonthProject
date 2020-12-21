@@ -16,7 +16,7 @@ public class BulletScript : MonoBehaviour
         if (!_takeDefaultVars)
         {
             _RB = GetComponent<Rigidbody>();
-            _RB.velocity = transform.forward * _speed;
+            _RB.AddForce(transform.forward * _speed , ForceMode.Impulse);
 
             _col = GetComponent<Collider>();
         }

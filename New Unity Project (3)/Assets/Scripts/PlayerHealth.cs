@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int _currentHealth;
 
     [SerializeField] private GameObject _damageEffect;
-    [SerializeField] private Color _damageColor;
 
     void Start()
     {

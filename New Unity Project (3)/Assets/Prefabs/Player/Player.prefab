@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 100
   _currentHealth: 0
+  _damageEffect: {fileID: 0}
 --- !u!114 &4636784317252733310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6512210087c85054f9cc047235a7540f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 5.5
 --- !u!1 &4636784317358592782
 GameObject:
   m_ObjectHideFlags: 0
