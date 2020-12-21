@@ -60,7 +60,7 @@ public class TurretCombat : MonoBehaviour
             if (target.tag == "Player")
             {
                 RaycastHit rayHit;
-                Vector3 dirToTarget = target.transform.position - transform.position;
+                Vector3 dirToTarget = target.transform.position - _barrelPoint.position;
                 Physics.Raycast(_barrelPoint.position, dirToTarget.normalized, out rayHit, Mathf.Infinity , _eyesFilter);
                 Debug.DrawRay(_barrelPoint.position, dirToTarget.normalized * rayHit.distance);
                 Debug.DrawLine(Vector3.zero , rayHit.point);

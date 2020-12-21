@@ -111,7 +111,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511318511281851087}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 30
   m_Drag: 3
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 100
   _currentHealth: 0
+  _damageEffect: {fileID: 3538931276695363196, guid: b3cab6a2555b229448a3fe1f798e64cf, type: 3}
 --- !u!114 &662215515974801759
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _bulletSpeed: 6
+  _bulletSpeed: 15
   _attackSpeed: 1
   _bullet: {fileID: 5673235782192007010, guid: da317248249c128409c8746272ee6fc9, type: 3}
   _head: {fileID: 4494872959675155425}

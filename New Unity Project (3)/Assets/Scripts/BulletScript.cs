@@ -7,8 +7,9 @@ public class BulletScript : MonoBehaviour
     [SerializeField] private int _damage;
     [SerializeField] private float _speed;
     [SerializeField] private bool _takeDefaultVars = false;
-    
+
     private Rigidbody _RB;
+    private Collider _col;
 
     void Start()
     {
@@ -16,6 +17,8 @@ public class BulletScript : MonoBehaviour
         {
             _RB = GetComponent<Rigidbody>();
             _RB.velocity = transform.forward * _speed;
+
+            _col = GetComponent<Collider>();
         }
         else
         {
@@ -32,12 +35,13 @@ public class BulletScript : MonoBehaviour
     {
         //transform.Translate(transform.forward * 10 * Time.deltaTime);
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         EnemyHealth enemyScipt;
         if (enemyScipt = other.gameObject.GetComponent<EnemyHealth>())
         {
-            enemyScipt.GetDamage(_damage);
+            Vector3 hitPoint = _col.ClosestPoint(other.transform.position);
+            enemyScipt.GetDamage(_damage , hitPoint);
             Destroy(gameObject);
         }
         else if (other.gameObject.tag == "RoomZone")
