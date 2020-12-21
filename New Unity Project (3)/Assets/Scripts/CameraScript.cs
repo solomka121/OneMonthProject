@@ -52,9 +52,4 @@ public class CameraScript : MonoBehaviour
     {
         return _cursorPoint;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(1, 0, 0);
-        Gizmos.DrawWireSphere(_cursorPoint, 0.3f);
-    }
 }

@@ -35,9 +35,4 @@ public class DoorSetActive : MonoBehaviour
             LeanTween.color(_UpBorder, _openedColor , _doorSpeed / 2);
         }
     }
-
-    public float GetSpeed()
-    {
-        return _doorSpeed;
-    }
 }

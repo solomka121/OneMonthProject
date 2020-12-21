@@ -11,7 +11,7 @@ public class EnemyKiller : MonoBehaviour
         {
             if (en != null)
             {
-                //en.GetDamage(1000);
+                en.GetDamage(1000);
             }
         }
     }

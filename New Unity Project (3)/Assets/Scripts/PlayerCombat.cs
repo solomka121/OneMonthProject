@@ -17,9 +17,10 @@ public class PlayerCombat : MonoBehaviour
     private float _timeToShoot;
 
     [SerializeField] private float _reloadTime;
-    private float _timeToReload;
+    public float _timeToReload;
     private float _imageFill;
-    private bool _isReloading;
+    public bool _isReloading;
+
 
     [SerializeField] private int _Mags;
     [SerializeField] private int _maxBulletsInMag;
@@ -55,7 +56,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            if (_timeToShoot <= Time.time && _bulletsLeftInMag > 0 && !_isReloading)
+            if (_timeToShoot <= Time.time && _bulletsLeftInMag > 0)
             {
                 Shoot();
                 _timeToShoot = Time.time + _fireSpeed;
@@ -110,12 +111,9 @@ public class PlayerCombat : MonoBehaviour
         Vector3 lookAt = cursorPoint;
         lookAt.y = transform.position.y;
 
-        //lookAt.Normalize();
-
-        rightHand.LookAt(lookAt);
+        rightHand.LookAt(cursorPoint);
         transform.LookAt(lookAt);
 
-        print(cursorPoint);
 
         Debug.DrawRay(GunBarrel.position, GunBarrel.forward * 5);
 
@@ -157,5 +155,10 @@ public class PlayerCombat : MonoBehaviour
         _MagsUI.text = _Mags.ToString();
         _maxBulletsInMagUI.text = _maxBulletsInMag.ToString();
         _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0);
+        Gizmos.DrawWireSphere(cursorPoint, 0.3f);
     }
 }
