@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
-    [SerializeField] private GameObject SpawnEffect;
 
+    [Header("Data")]
     [SerializeField] private DoorSetActive[] _doors;
-
     [SerializeField] private GameObject _enemies;
+    [SerializeField] private GameObject SpawnEffect;
+ 
+    [Header("Enemies")]
     [SerializeField] private GameObject[] _objToSpawn;
     [SerializeField] private float[] SpawnChance;
 
+    [Header("Spawn Range")]
     [SerializeField] private float _xSpawnRange;
     [SerializeField] private float _ySpawn = 0.5f;
     [SerializeField] private float _zSpawnRange;
 
+    [Header("Spawn Mods")]
     [SerializeField] private float _spawnRate;
     [SerializeField] private int _maxEnemiesCount;
     private int _enemiesCount;

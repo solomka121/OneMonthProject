@@ -15,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     {
         _RB = GetComponent<Rigidbody>();
         _NM = GetComponent<NavMeshAgent>();
+        _NM.speed += Random.Range(_NM.speed / (-10), _NM.speed / 10);
     }
 
     void FixedUpdate()
