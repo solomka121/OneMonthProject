@@ -60,6 +60,7 @@ public class PlayerCombat : MonoBehaviour
 
         UpdateAmmoUI();
     }
+
     // Update is called once per frame
     void Update()
     {

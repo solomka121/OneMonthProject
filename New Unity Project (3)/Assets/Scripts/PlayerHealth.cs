@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _currentHealth;
 
-    [SerializeField] private GameObject _damageEffect;
+    public PlayerHealthBar playerHealthBar;
+    public GameObject _damageEffect;
 
     void Start()
     {
         _currentHealth = _maxHealth;
+        playerHealthBar.SetMaxHealth(_maxHealth);
+        playerHealthBar.UpdateHealth(_currentHealth);
     }
     void Update()
     {
@@ -20,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
     public void GetDamage(int damage , Vector3 hitPoint)
     {
         _currentHealth -= damage;
+
+        playerHealthBar.UpdateHealth(_currentHealth);
 
         Vector3 directionToDamage = hitPoint - transform.position;
         Quaternion damageRotation = Quaternion.FromToRotation(transform.forward, directionToDamage);
@@ -41,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
         {
             _currentHealth += heal;
         }
+        playerHealthBar.UpdateHealth(_currentHealth);
     }
 
     private void Death()

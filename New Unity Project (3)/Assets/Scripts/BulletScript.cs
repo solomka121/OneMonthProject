@@ -11,6 +11,9 @@ public class BulletScript : MonoBehaviour
     private Rigidbody _RB;
     private Collider _col;
 
+
+    public LayerMask includeLayers;
+
     void Start()
     {
         if (!_takeDefaultVars)
@@ -37,6 +40,13 @@ public class BulletScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
+        
+
+        if (((1 << other.gameObject.layer) & includeLayers) != 0)
+        {
+            //It matched one
+        }
+
         EnemyHealth enemyScipt;
         if (enemyScipt = other.gameObject.GetComponent<EnemyHealth>())
         {

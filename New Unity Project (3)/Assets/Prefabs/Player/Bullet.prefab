@@ -162,6 +162,9 @@ MonoBehaviour:
   _damage: 20
   _speed: 28
   _takeDefaultVars: 0
+  includeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &389896665837538719
 GameObject:
   m_ObjectHideFlags: 0

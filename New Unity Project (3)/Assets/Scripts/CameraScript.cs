@@ -12,11 +12,12 @@ public class CameraScript : MonoBehaviour
     private Vector3 _followOffSet;
     private Vector3 _dir;
     private Vector3 _smoothedDir;
+    Vector3 smoothedPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        _followOffSet += transform.position;
+        _followOffSet += transform.position; 
     }
 
     // Update is called once per frame
@@ -26,10 +27,11 @@ public class CameraScript : MonoBehaviour
 
         _cursorPoint.y = _objectToFollow.position.y; // lock position on y (player.y)
 
-        _dir = Vector3.ClampMagnitude((_cursorPoint - _objectToFollow.position).normalized * (_cursorPoint - _objectToFollow.position).magnitude , 28);
-        _smoothedDir = Vector3.Lerp(Vector3.zero, _dir, 0.1f);
+        _dir = Vector3.ClampMagnitude((_cursorPoint - _objectToFollow.position).normalized * (_cursorPoint - _objectToFollow.position).magnitude , 38);
+        _smoothedDir = Vector3.Lerp(Vector3.zero, _dir, 0.16f);
 
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, _objectToFollow.position + _followOffSet + _smoothedDir, 0.1f);
+        smoothedPosition = Vector3.Lerp(transform.position, _objectToFollow.position + _followOffSet + _smoothedDir, 0.1f);
+
         //transform.LookAt(_objectToFollow.position);
         transform.position = smoothedPosition;
     }
