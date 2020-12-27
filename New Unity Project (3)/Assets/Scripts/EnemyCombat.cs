@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyCombat : MonoBehaviour
 {
     private EnemyMovement Movement;
+    private Animator _anim;
+    public EnemyHealth enemyHealth;
 
     [SerializeField] private Transform _eyesPoint;
 
@@ -33,6 +35,7 @@ public class EnemyCombat : MonoBehaviour
     void Start()
     {
         Movement = GetComponent<EnemyMovement>();
+        _anim = GetComponent<Animator>();
 
         _startPosition = transform.position;
 
@@ -46,7 +49,16 @@ public class EnemyCombat : MonoBehaviour
         StartCoroutine(startAiDelay(delay));
         this.enabled = false;
     }
-    
+    // event subscribe example
+    private void OnEnable()
+    {
+        enemyHealth.death += StopAction;
+    }
+    private void OnDisable()
+    {
+        enemyHealth.death -= StopAction;
+    }
+    //
     void Update()
     {
         if (myState == state.Walking)
@@ -62,7 +74,7 @@ public class EnemyCombat : MonoBehaviour
             {
                 if (Vector3.Distance(_meleeAttackPoint.position, _target.position) <= _meleeRange)
                 {
-                    MeleeAttack();
+                    _anim.SetTrigger("MeleeAttack");
                     _timeToMeleeAttack = _meleeAttackRate + Time.time;
                 }
             }
@@ -81,6 +93,7 @@ public class EnemyCombat : MonoBehaviour
                 PH.GetDamage(_meleeDamage , transform.position);
             }
         }
+
     }
 
     private void CheckTargets()
@@ -94,6 +107,7 @@ public class EnemyCombat : MonoBehaviour
                 Vector3 dirToTarget = target.transform.position - transform.position;
                 Physics.Raycast(_eyesPoint.position, dirToTarget.normalized , out rayHit, Mathf.Infinity ,  _eyesFilter);
                 Debug.DrawRay(_eyesPoint.position, dirToTarget.normalized * rayHit.distance);
+
                 if (rayHit.collider.gameObject.tag == target.gameObject.tag)
                 {
                     _target = target.transform;
@@ -113,6 +127,11 @@ public class EnemyCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         this.enabled = true;
+    }
+
+    private void StopAction()
+    {
+        this.enabled = false;
     }
 
     private void OnDrawGizmos()
