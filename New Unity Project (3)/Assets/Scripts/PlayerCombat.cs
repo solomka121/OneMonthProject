@@ -28,12 +28,23 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private int _maxBulletsInMag;
     private int _bulletsLeftInMag;
 
+    [Header("Melee")]
+
+    [SerializeField] private string meleeAttackKeyTrigger;
+    [SerializeField] private Transform meleeAttackPoint;
+    [SerializeField] private float meleeAttackRadius;
+    [SerializeField] private int meleeAttackDamage;
+    [SerializeField] private float meleeAttackStunChance;
+    [SerializeField] LayerMask meleeAttackEnemyMask;
+    
+
     [Header("Gun UI")]
     [SerializeField] private Image _reloadImgUI;
     [SerializeField] private TextMeshProUGUI _MagsUI;
     [SerializeField] private TextMeshProUGUI _maxBulletsInMagUI;
     [SerializeField] private TextMeshProUGUI _bulletsLeftInMagUI;
 
+    private Animator _anim;
     private Rigidbody _RB;
     private CameraScript _camData;
     private Vector3 cursorPoint;
@@ -51,6 +62,7 @@ public class PlayerCombat : MonoBehaviour
         // any other way except public GameObj camera ?
         _camData = GameObject.Find("MainCamera").GetComponent<CameraScript>();
         _RB = GetComponent<Rigidbody>();
+        _anim = GetComponent<Animator>();
 
         _bulletsLeftInMag = _maxBulletsInMag;
 
@@ -75,11 +87,16 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(meleeAttackKeyTrigger))
+        {
+            _anim.SetTrigger("MeleeAttack");
+        }
+
         if (Input.GetKeyDown("r") && _Mags > 0)
         {
             if (_timeToReload <= 0)
             {
-                TryReload();
+                StartCoroutine(TryReload());
 
                 _isReloading = true;
 
@@ -97,7 +114,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (_bulletsLeftInMag == 0 && _Mags > 0 && !_isReloading)
         {
-            TryReload();
+            StartCoroutine(TryReload());
 
             _isReloading = true;
 
@@ -111,11 +128,27 @@ public class PlayerCombat : MonoBehaviour
 
     private void Shoot()
     {
+        _anim.SetTrigger("Shoot");
+
         BulletScript bull = Instantiate(bullet, GunBarrel.position, GunBarrel.rotation).GetComponent<BulletScript>();
         bull.Init(_bulletDamage , _bulletSpeed);
         _bulletsLeftInMag--;
 
          _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();
+    }
+
+    private void MeleeAttack()
+    {
+        Collider[] cols = Physics.OverlapSphere(meleeAttackPoint.position , meleeAttackRadius , meleeAttackEnemyMask);
+        foreach (Collider col in cols)
+        {
+            EnemyHealth EH;
+            if (EH = col.GetComponent<EnemyHealth>())
+            {
+                Vector3 hitPoint = col.ClosestPoint(meleeAttackPoint.position);
+                EH.GetDamage( meleeAttackDamage , hitPoint);
+            }
+        }
     }
 
     private void Aim()
@@ -141,9 +174,10 @@ public class PlayerCombat : MonoBehaviour
 
         //Debug.DrawRay(GunBarrel.forward, cursorPoint , Color.red );
     }
-    private void TryReload()
+    private IEnumerator TryReload()
     {
-        Invoke("Reload" , 2);
+        yield return new WaitForSeconds(_reloadTime);
+        Reload();
     }
     private void Reload()
     {
@@ -171,5 +205,10 @@ public class PlayerCombat : MonoBehaviour
         _MagsUI.text = _Mags.ToString();
         _maxBulletsInMagUI.text = _maxBulletsInMag.ToString();
         _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(meleeAttackPoint.position , meleeAttackRadius);
     }
 }

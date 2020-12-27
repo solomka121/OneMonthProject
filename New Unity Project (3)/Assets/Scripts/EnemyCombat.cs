@@ -6,6 +6,7 @@ public class EnemyCombat : MonoBehaviour
 {
     private EnemyMovement Movement;
     private Animator _anim;
+    public EnemyHealth enemyHealth;
 
     [SerializeField] private Transform _eyesPoint;
 
@@ -48,7 +49,16 @@ public class EnemyCombat : MonoBehaviour
         StartCoroutine(startAiDelay(delay));
         this.enabled = false;
     }
-    
+    // event subscribe example
+    private void OnEnable()
+    {
+        enemyHealth.death += StopAction;
+    }
+    private void OnDisable()
+    {
+        enemyHealth.death -= StopAction;
+    }
+    //
     void Update()
     {
         if (myState == state.Walking)
@@ -117,6 +127,11 @@ public class EnemyCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         this.enabled = true;
+    }
+
+    private void StopAction()
+    {
+        this.enabled = false;
     }
 
     private void OnDrawGizmos()

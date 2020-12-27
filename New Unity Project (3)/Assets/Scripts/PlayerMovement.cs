@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float speed;
 
+    private Animator _anim;
     private Rigidbody RB;
     private Vector3 movementVec;
     private float _movement;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _anim = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
         footStepsEmission = footSteps.emission;
     }
@@ -55,7 +57,9 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * 2 , Color.red);
         Debug.DrawRay(transform.position , movementVec.normalized * 2 , Color.blue);*/
 
+        //transform.Translate(vertical , 0 , horizontal);
         RB.velocity = movementVec.normalized * (speed / facing );
+        _anim.SetFloat("Speed", _movement * (speed / facing));
         //RB.MovePosition(RB.position + movementVec.normalized * (speed / facing) * Time.deltaTime);
     }
     private void Update()
