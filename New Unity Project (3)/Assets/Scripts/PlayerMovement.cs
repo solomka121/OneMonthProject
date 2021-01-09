@@ -45,22 +45,29 @@ public class PlayerMovement : MonoBehaviour
             footStepsEmission.enabled = false;
         }
 
-        //facing = Vector3.Dot(movementVec , transform.forward);
-
-
         float facing = 0;
         // is Lerp good here ? meh...
         facing = Mathf.Lerp( facing , Vector3.Angle(transform.forward, movementVec) , 0.01f);
         facing = Mathf.Clamp(facing , 1 , 2);
 
         /*print(facing);
-        Debug.DrawRay(transform.position, transform.forward * 2 , Color.red);
-        Debug.DrawRay(transform.position , movementVec.normalized * 2 , Color.blue);*/
+        Debug.DrawRay(transform.position, transform.forward * 2, Color.red);
+        Debug.DrawRay(transform.position, movementVec.normalized * 2, Color.blue);
+*/
+
 
         //transform.Translate(vertical , 0 , horizontal);
         RB.velocity = movementVec.normalized * (speed / facing );
         _anim.SetFloat("Speed", _movement * (speed / facing));
         //RB.MovePosition(RB.position + movementVec.normalized * (speed / facing) * Time.deltaTime);
+    }
+
+    public void AddSpeed(float ammount)
+    {
+        if (speed + ammount <= 8)
+        {
+            speed += ammount;
+        }
     }
     private void Update()
     {

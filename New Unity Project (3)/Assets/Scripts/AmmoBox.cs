@@ -24,7 +24,15 @@ public class AmmoBox : MonoBehaviour
         if (PC = other.GetComponent<PlayerCombat>())
         {
             PC.GetAmmo(_magsRecover);
-            Destroy(gameObject);
+            LeanTween.scale(gameObject , Vector3.zero , 0.2f);
+            LeanTween.move(gameObject , other.transform.position , 0.2f).setOnComplete(AmmoTaken);
+            //Destroy(gameObject);
         }
+    }
+
+    private void AmmoTaken()
+    {
+
+        Destroy(gameObject);
     }
 }

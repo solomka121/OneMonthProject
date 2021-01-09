@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TurretCombat : MonoBehaviour
 {
+    public EnemyHealth enemyHealth;
+
     [SerializeField] private int _damage;
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _attackSpeed = 1;
@@ -25,6 +27,10 @@ public class TurretCombat : MonoBehaviour
     {
         this.enabled = false;
         StartCoroutine(StartAiDelay(time));
+    }
+    public void PauseCombatAI(bool stunState)
+    {
+        this.enabled = !stunState;
     }
 
     // Update is called once per frame
@@ -76,7 +82,18 @@ public class TurretCombat : MonoBehaviour
             _target = null;
         }
     }
-    
+    private void OnEnable()
+    {
+        enemyHealth.stun += PauseCombatAI;
+        enemyHealth.death += Disable;
+    }
+    private void OnDestroy()
+    {
+        enemyHealth.stun -= PauseCombatAI;
+        enemyHealth.death -= Disable;
+    }
+    //
+
     private void Shoot()
     {
         var bull = Instantiate(_bullet, _barrelPoint.position, _barrelPoint.rotation);
@@ -87,6 +104,11 @@ public class TurretCombat : MonoBehaviour
     {
             yield return new WaitForSeconds(delay);
             this.enabled = true;
+    }
+
+    private void Disable()
+    {
+        this.enabled = false;
     }
 
     private void OnDrawGizmos()

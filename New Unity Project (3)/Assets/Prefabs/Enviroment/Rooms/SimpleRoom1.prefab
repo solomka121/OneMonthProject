@@ -109,14 +109,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2877e7b8ea7ef94aa113e2239c3211a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnEffect: {fileID: 4013700197551542388, guid: 07a117b26c07faf4b9bfadc75c0bbda0, type: 3}
   _doors:
   - {fileID: 2090143703245720760}
   _enemies: {fileID: 2643528833284881055}
+  SpawnEffect: {fileID: 4013700197551542388, guid: 07a117b26c07faf4b9bfadc75c0bbda0, type: 3}
   _objToSpawn:
   - {fileID: 511318511281851087, guid: fe81b234baeb6e04bb6538e7244757e0, type: 3}
-  SpawnChance:
-  - 1
+  _spawnChanceTable: 
   _xSpawnRange: 12
   _ySpawn: 0.5
   _zSpawnRange: 12

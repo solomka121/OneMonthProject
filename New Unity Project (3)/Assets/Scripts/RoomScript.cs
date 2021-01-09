@@ -12,7 +12,8 @@ public class RoomScript : MonoBehaviour
  
     [Header("Enemies")]
     [SerializeField] private GameObject[] _objToSpawn;
-    [SerializeField] private float[] SpawnChance;
+    [SerializeField] private int[] _spawnChanceTable;
+    private int _spawnChanceTotal;
 
     [Header("Spawn Range")]
     [SerializeField] private float _xSpawnRange;
@@ -30,6 +31,14 @@ public class RoomScript : MonoBehaviour
     //private bool IsPlayerInside;
 
     [SerializeField] private float _aiEnableDelay;
+
+    private void Awake()
+    {
+        foreach(int weight in _spawnChanceTable)
+        {
+            _spawnChanceTotal += weight;
+        }
+    }
 
     void Start()
     {
@@ -61,7 +70,21 @@ public class RoomScript : MonoBehaviour
     {
         int RandomPrefab = 0;
 
-        switch (_objToSpawn.Length)
+        int randomNumber = Random.Range(0 , _spawnChanceTotal);
+
+        for (int i = 0; i < _spawnChanceTable.Length ; i++)
+        {
+            if (randomNumber <= _spawnChanceTable[i])
+            {
+                RandomPrefab = i;
+                break;
+            }
+            else
+            {
+                randomNumber -= _spawnChanceTable[i];
+            }
+        }
+       /* switch (_objToSpawn.Length)
         {
             case 1:
                 RandomPrefab = 0;
@@ -75,7 +98,7 @@ public class RoomScript : MonoBehaviour
                 if (Random.value < SpawnChance[1]) RandomPrefab = 1;
                 if (Random.value < SpawnChance[2]) RandomPrefab = 2;
                 break;
-        }
+        }*/
 
         Vector3 randomPosition = new Vector3(Random.Range(-_xSpawnRange , _xSpawnRange) , _ySpawn , Random.Range(-_zSpawnRange , _zSpawnRange));
         GameObject Enemy = Instantiate(_objToSpawn[RandomPrefab], _enemies.transform.position + randomPosition , Quaternion.identity, _enemies.transform);
