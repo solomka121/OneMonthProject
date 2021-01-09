@@ -23,7 +23,14 @@ public class HealBox : MonoBehaviour
         if (PH = other.GetComponent<PlayerHealth>())
         {
             PH.GetHeal(_healAmount);
-            Destroy(gameObject);
+            LeanTween.scale(gameObject, Vector3.zero, 0.2f);
+            LeanTween.move(gameObject, other.transform.position, 0.2f).setOnComplete(AmmoTaken);
+            //Destroy(gameObject);
         }
+    }
+
+    private void AmmoTaken()
+    {
+        Destroy(gameObject);
     }
 }

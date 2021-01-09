@@ -15,8 +15,11 @@ public class EnemyMovement : MonoBehaviour
     private NavMeshAgent _NM;
     private Animator _anim;
 
+    private bool _isStunned;
+
     private MeshRenderer _skinMaterial;
     private Vector3 _Target;
+
 
     void Start()
     {
@@ -35,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
         /*_Target.y = 0;
         Vector3 dir = _Target.normalized;
         _RB.velocity = dir * _speed;*/
-        if (_NM.hasPath)
+        if (_NM.hasPath && !_isStunned)
         {
             footStepsEmission.enabled = true;
             _anim.SetBool("IsRunning", true);
@@ -62,14 +65,22 @@ public class EnemyMovement : MonoBehaviour
     private void OnEnable()
     {
         enemyHealth.death += UnParentFootSpets;
+        enemyHealth.stun += StunCheck;
     }
     private void OnDisable()
     {
         enemyHealth.death -= UnParentFootSpets;
+        enemyHealth.stun -= StunCheck;
     }
     //
 
-    public void UnParentFootSpets()
+    private void StunCheck(bool state)
+    {
+        _NM.isStopped = state;
+        _isStunned = state;
+    }
+
+    private void UnParentFootSpets()
     {
         this.enabled = false;
         footStepsEmission.enabled = false;

@@ -11,6 +11,11 @@ public class PlayerHealth : MonoBehaviour
     public PlayerHealthBar playerHealthBar;
     public GameObject _damageEffect;
 
+    // example of event
+    public delegate void OnDeath();
+    public event OnDeath death;
+    // 
+
     void Start()
     {
         _currentHealth = _maxHealth;
@@ -52,6 +57,10 @@ public class PlayerHealth : MonoBehaviour
 
     private void Death()
     {
-        Destroy(this.gameObject);
+        death();
+        Time.timeScale = 0.5f;
+
+        GetComponent<PlayerCombat>().enabled = false;
+        GetComponent<PlayerMovement>().enabled = false;
     }
 }

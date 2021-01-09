@@ -8,13 +8,16 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private Transform rightHand;
 
-    [Header("Gun Stats")]
+    [Header("Gun")]
 
     [SerializeField] private Transform GunBarrel;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private ParticleSystem MuzzleFlash;
 
     [SerializeField] private int _bulletDamage;
     [SerializeField] private int _bulletSpeed;
+    [SerializeField] private float _stunChance;
+    [SerializeField] private float _stunDuration;
 
     [SerializeField] private float _fireSpeed = 0.4f;
     private float _timeToShoot;
@@ -30,12 +33,13 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Melee")]
 
-    [SerializeField] private string meleeAttackKeyTrigger;
-    [SerializeField] private Transform meleeAttackPoint;
-    [SerializeField] private float meleeAttackRadius;
-    [SerializeField] private int meleeAttackDamage;
-    [SerializeField] private float meleeAttackStunChance;
-    [SerializeField] LayerMask meleeAttackEnemyMask;
+    [SerializeField] private string _meleeAttackKeyTrigger;
+    [SerializeField] private Transform _meleeAttackPoint;
+    [SerializeField] private float _meleeAttackRadius;
+    [SerializeField] private int _meleeAttackDamage;
+    [SerializeField] private float _meleeAttackStunChance;
+    [SerializeField] private float _meleeAttackStunDuration;
+    [SerializeField] LayerMask _meleeAttackEnemyMask;
     
 
     [Header("Gun UI")]
@@ -80,14 +84,14 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            if (_timeToShoot <= Time.time && _bulletsLeftInMag > 0 && !_isReloading)
+            if (_timeToShoot <= Time.time && _bulletsLeftInMag > 0 && !_isReloading && Time.timeScale != 0)
             {
                 Shoot();
                 _timeToShoot = Time.time + _fireSpeed;
             }
         }
 
-        if (Input.GetKeyDown(meleeAttackKeyTrigger))
+        if (Input.GetKeyDown(_meleeAttackKeyTrigger))
         {
             _anim.SetTrigger("MeleeAttack");
         }
@@ -131,7 +135,17 @@ public class PlayerCombat : MonoBehaviour
         _anim.SetTrigger("Shoot");
 
         BulletScript bull = Instantiate(bullet, GunBarrel.position, GunBarrel.rotation).GetComponent<BulletScript>();
-        bull.Init(_bulletDamage , _bulletSpeed);
+        Instantiate(MuzzleFlash , GunBarrel.position , GunBarrel.rotation);
+
+        if (_stunChance <= 0)
+        {
+            bull.Init(_bulletDamage, _bulletSpeed);
+        }
+        else
+        {
+            bull.Init(_bulletDamage, _bulletSpeed , _stunChance , _stunDuration);
+        }
+
         _bulletsLeftInMag--;
 
          _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();
@@ -139,14 +153,21 @@ public class PlayerCombat : MonoBehaviour
 
     private void MeleeAttack()
     {
-        Collider[] cols = Physics.OverlapSphere(meleeAttackPoint.position , meleeAttackRadius , meleeAttackEnemyMask);
+        Collider[] cols = Physics.OverlapSphere(_meleeAttackPoint.position , _meleeAttackRadius , _meleeAttackEnemyMask);
         foreach (Collider col in cols)
         {
             EnemyHealth EH;
             if (EH = col.GetComponent<EnemyHealth>())
             {
-                Vector3 hitPoint = col.ClosestPoint(meleeAttackPoint.position);
-                EH.GetDamage( meleeAttackDamage , hitPoint);
+                Vector3 hitPoint = col.ClosestPoint(_meleeAttackPoint.position);
+                if (_meleeAttackStunChance <= 0)
+                {
+                    EH.GetDamage(_meleeAttackDamage, hitPoint);
+                }
+                else
+                {
+                    EH.GetDamage(_meleeAttackDamage, hitPoint , _meleeAttackStunChance , _meleeAttackStunDuration);
+                }
             }
         }
     }
@@ -207,8 +228,50 @@ public class PlayerCombat : MonoBehaviour
         _bulletsLeftInMagUI.text = _bulletsLeftInMag.ToString();
     }
 
+    public bool TryBuy(int ammount)
+    {
+        if (_Mags - ammount >= 0)
+        {
+            _Mags -= ammount;
+            _MagsUI.text = _Mags.ToString();
+            return true;
+        }
+        return false;
+    }
+
+    public void AddDamage(int ammount)
+    {
+        if (_bulletDamage + ammount <= 50)
+        {
+            _bulletDamage += ammount;
+            _meleeAttackDamage += ammount;
+        }
+    }
+
+    public void AddSpeed(float ammount)
+    {
+        if (_reloadTime - ammount >= 1)
+        {
+            _reloadTime -= ammount;
+            _bulletSpeed += 10;
+        }
+    }
+
+    public void AddStunChance()
+    {
+        if (_stunChance + 0.2f <= 1)
+        {
+            _stunChance += 0.2f;
+            _meleeAttackStunChance += 0.2f;
+            _stunDuration += 0.4f;
+            _meleeAttackStunDuration += 0.4f;
+            _bulletDamage -= 4;
+            _fireSpeed -= 0.05f;
+        }
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(meleeAttackPoint.position , meleeAttackRadius);
+        Gizmos.DrawWireSphere(_meleeAttackPoint.position , _meleeAttackRadius);
     }
 }

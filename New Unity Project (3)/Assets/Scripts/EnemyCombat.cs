@@ -53,10 +53,12 @@ public class EnemyCombat : MonoBehaviour
     private void OnEnable()
     {
         enemyHealth.death += StopAction;
+        enemyHealth.stun += StopAction;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         enemyHealth.death -= StopAction;
+        enemyHealth.stun -= StopAction;
     }
     //
     void Update()
@@ -133,6 +135,12 @@ public class EnemyCombat : MonoBehaviour
     {
         this.enabled = false;
     }
+
+    private void StopAction(bool stunState)
+    {
+        this.enabled = !stunState;
+    }
+
 
     private void OnDrawGizmos()
     {
